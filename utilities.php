@@ -1,10 +1,10 @@
 <?php
   $admin="hajnina";
   $admin_password="password";
-  $db_table="zasuvky";
+  $db_table="zasuvcicky";
   $db_address="localhost";
   $db_username="root";
-  $db="zasuvky";
+  $db="zasuvcicky";
   $db_password="";
   $vypisovat = true;
   function debug($hlaska){
@@ -34,9 +34,10 @@
     $link=connect();
     $dotaz="SELECT * FROM $db_table";
     $vysledek=mysqli_query($link,$dotaz);
-    if(!$vysledek){debug("nenalezeny žádné wifiny");return [];}
+    if(!$vysledek){debug("při vyhledávání wifin nastal problém");return [];}
     $radku=mysqli_num_rows($vysledek);
     $sloupcu=mysqli_num_fields($vysledek);
+    if($radku==0){debug("nenalezeny žádné wifiny");return [];}
     for($i=0; $i<$radku; $i++){
       $radek=mysqli_fetch_array($vysledek);
       for($j=0; $j<$sloupcu; $j++){

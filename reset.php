@@ -34,7 +34,6 @@
       else{
         echo "ERROR - tabulka $db_table nebyla vytvořena";
       }
-      debug("baf");
     ?>
   </body>
 </html>
