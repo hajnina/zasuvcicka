@@ -18,7 +18,7 @@
      addSpot($_REQUEST["name"],$_REQUEST["latlon"],isset($_REQUEST["maZasuvku"]),isset($_REQUEST["maWifi"]),$_REQUEST["obrazek"]);
    }
  ?>
- <body>
+ <body style="background-image: none; background-color: rgba(0,0,0,0);">
    <article class="container box style3">
    <form method="post">
       <div class="row 50%">

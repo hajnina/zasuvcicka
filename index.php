@@ -29,7 +29,7 @@
 				<p>Už se vám někdy stalo, že jste byli někde na cestách, nutně jste potřebovali notebook nebo mobil, ale baterka byla úplně prázdná?<br />
 				Nám se to stává pořád.<br />Takže jsme pro tyhle případy vytvořili databázi míst, kde si můžete ty vaše nenažrance dobít.</p>
 				<footer>
-					<a href="#pridatZasuvku" class="button style2 scrolly">Přidat zásuvku</a>
+					<a href="#pridat" class="button style2 scrolly">Přidat zásuvku</a>
 				</footer>
 			</section>
 
@@ -38,70 +38,39 @@
 				//$link=mysqli_connect();
 				include "utilities.php";
 				$wifiny=findNearest("10,5");
-				$radku=sizeof($wifiny);
-				for($i=0; $i<$radku; $i++){
-					echo "
-						<article id='$i' class='container box style1 right'>
-							<a href='#' class='image fit'><img src='images/background1.jpg' alt='' /></a>
-							<div class='inner'>
-								<header>
-									<h2>".$wifiny[$i][1]."</h2><br />
-								</header>
-								<p>".$wifiny[$i][4]."</p>
-							</div>
-						</article>
-					";
-				}
+				if($wifiny){
+					$radku=sizeof($wifiny);
+					for($i=0; $i<$radku; $i++){
+						echo "
+							<article id='$i' class='container box style1 right'>
+								<a href='#' class='image fit'><img src='images/background1.jpg' alt='' /></a>
+								<div class='inner'>
+									<header>
+										<h2>".$wifiny[$i][1]."</h2><br />
+									</header>
+									<p>".$wifiny[$i][4]."</p>
+								</div>
+							</article>
+						";
+					}
+				}else{
+						echo "
+							<article id='0' class='container box style1 right'>
+								<a href='#' class='image fit'><img src='images/background1.jpg' alt='' /></a>
+								<div class='inner'>
+									<header>
+										<h2>Je tu nějak prázdno... :(</h2><br />
+									</header>
+									<p>Buďte první, kdo <a href='#pridat'>přidá zásuvku!</a></p>
+								</div>
+							</article>
+						";
+					}
 			 ?>
-			<article id="first" class="container box style1 right">
-				<a href="#" class="image fit"><img src="images/background1.jpg" alt="" /></a>
-				<div class="inner">
-					<header>
-						<h2>Lorem ipsum<br />
-						dolor sit amet</h2>
-					</header>
-					<p>Tortor faucibus ullamcorper nec tempus purus sed penatibus. Lacinia pellentesque eleifend vitae est elit tristique velit tempus etiam.</p>
-				</div>
-			</article>
-
-		<!-- Feature 2 -->
-			<article class="container box style1 left">
-				<a href="#" class="image fit"><img src="images/pic02.jpg" alt="" /></a>
-				<div class="inner">
-					<header>
-						<h2>Mollis posuere<br />
-						lectus lacus</h2>
-					</header>
-					<p>Rhoncus mattis egestas sed fusce sodales rutrum et etiam ullamcorper. Etiam egestas scelerisque ac duis magna lorem ipsum dolor.</p>
-				</div>
-			</article>
-
-		<!-- Portfolio -->
-			<article class="container box style2">
-				<header>
-					<h2>Magnis parturient</h2>
-					<p>Justo phasellus et aenean dignissim<br />
-					placerat cubilia purus lectus.</p>
-				</header>
-				<div class="inner gallery">
-					<div class="row 0%">
-						<div class="3u 12u(mobile)"><a href="images/fulls/01.jpg" class="image fit"><img src="images/thumbs/01.jpg" alt="" title="Ad infinitum" /></a></div>
-						<div class="3u 12u(mobile)"><a href="images/fulls/02.jpg" class="image fit"><img src="images/thumbs/02.jpg" alt="" title="Dressed in Clarity" /></a></div>
-						<div class="3u 12u(mobile)"><a href="images/fulls/03.jpg" class="image fit"><img src="images/thumbs/03.jpg" alt="" title="Raven" /></a></div>
-						<div class="3u 12u(mobile)"><a href="images/fulls/04.jpg" class="image fit"><img src="images/thumbs/04.jpg" alt="" title="I'll have a cup of Disneyland, please" /></a></div>
-					</div>
-					<div class="row 0%">
-						<div class="3u 12u(mobile)"><a href="images/fulls/05.jpg" class="image fit"><img src="images/thumbs/05.jpg" alt="" title="Cherish" /></a></div>
-						<div class="3u 12u(mobile)"><a href="images/fulls/06.jpg" class="image fit"><img src="images/thumbs/06.jpg" alt="" title="Different." /></a></div>
-						<div class="3u 12u(mobile)"><a href="images/fulls/07.jpg" class="image fit"><img src="images/thumbs/07.jpg" alt="" title="History was made here" /></a></div>
-						<div class="3u 12u(mobile)"><a href="images/fulls/08.jpg" class="image fit"><img src="images/thumbs/08.jpg" alt="" title="People come and go and walk away" /></a></div>
-					</div>
-				</div>
-			</article>
 
 		<!-- Contact -->
 			<!--<article class="container box style3" id="pridatZasuvku">-->
-				<iframe src="pridat.php" style="height: 100vh; width: 100%;"></iframe>
+				<span id="pridat"><iframe src="pridat.php" style="height: 100vh; width: 100%;"></iframe></span>
 				<!--<header>
 					<h2>Přidat nové místo</h2>
 					<p></p>

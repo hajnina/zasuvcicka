@@ -37,7 +37,7 @@
     if(!$vysledek){debug("při vyhledávání wifin nastal problém");return [];}
     $radku=mysqli_num_rows($vysledek);
     $sloupcu=mysqli_num_fields($vysledek);
-    if($radku==0){debug("nenalezeny žádné wifiny");return [];}
+    if($radku==0){debug("nenalezeny žádné wifiny");return false;}
     for($i=0; $i<$radku; $i++){
       $radek=mysqli_fetch_array($vysledek);
       for($j=0; $j<$sloupcu; $j++){
