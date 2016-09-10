@@ -40,6 +40,10 @@
 										<h2>".$wifiny[$i][1]."</h2><br />
 									</header>
 									<p>".$wifiny[$i][4]."</p>
+									";
+									if($wifiny[$i][2]==1){echo "<img src='images/zasuvka_m.png' /> ";}
+									if($wifiny[$i][3]==1){echo "<img src='images/wifi_m.png' />";}
+									echo "
 								</div>
 							</article>
 						";

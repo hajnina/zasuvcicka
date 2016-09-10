@@ -5,7 +5,7 @@
   $db_address="localhost";
   $db_username="root";
   $db="zasuvcicky";
-  $db_password="";
+  $db_password="heslo";
   $vypisovat = true;
   function debug($hlaska){
     global $vypisovat;
