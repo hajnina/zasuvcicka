@@ -13,7 +13,7 @@
 		<!-- Header -->
 			<section id="header">
 				<header>
-					<h1>ZÁSUV.KU</h1>
+					<h1>zasuvcicka.cz</h1>
 					<p></p>
 				</header>
 				<footer>
