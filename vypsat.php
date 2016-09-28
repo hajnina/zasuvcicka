@@ -15,11 +15,11 @@
       include "utilities.php";
       $link=connect();
       $dotaz="SELECT * FROM $db_table";
-      $vysledek=mysli_query($link, $dotaz);
+      $vysledek=mysqli_query($link, $dotaz);
       $radku=mysqli_num_rows($vysledek);
       for($i=0;$i<$radku;$i++){
         $radek=mysqli_fetch_array();
-        echo "<div style="background-color: black; color: white;">";
+        echo "<div style='background-color: black; color: white;'>";
         for ($j=0; $j<$radku; $j++){
           echo $radek[j]."<br />";
         }
