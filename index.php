@@ -33,53 +33,107 @@
 					<a href="#pridat" class="button style2 scrolly">Přidat zásuvku</a>
 				</footer>
 			</section>
-
+<article class="container box style2">
+	<form method="post">
+		 <div class="row 100%">
+			 <p>
+				 <input style="width:85%;" type="text" class="text responzivni" name="name" placeholder="Název" /><br />
+				 <input type="hidden" name="latlon" id="latlng" /><br />
+				 <input type="file" class="text" name="obrazek" placeholder=Obrázek /><br />
+			 </p>
+</article>
 		<!-- Feature 1 -->
 		<section id="najit">
-			<?php
-				//$link=mysqli_connect();
-				include "utilities.php";
-				$wifiny=findNearest("50.0805215,14.4240316");
-				$radku=sizeof($wifiny);
-				for($i=0; $i<$radku; $i++){
-					echo "
-						<article id='$i' class='container box style1 right'>
-							<a href='#' class='image fit'><img src='images/background1.jpg' alt='' /></a>
-							<div class='inner'>
-								<header>
-									<h2>".$wifiny[$i][1]."</h2><br />
-								</header>
-								<p>".$wifiny[$i][4]."</p>
-							</div>
-						</article>
-					";
-				}
-			 ?>
 			 </section>
 			<article class="container box style2">
 				<header>
-					<h2>Magnis parturient</h2>
-					<p>Justo phasellus et aenean dignissim<br />
-					placerat cubilia purus lectus.</p>
+					<h2>Zásuvky v okolí</h2>
 				</header>
 				<div class="inner gallery">
-					<div class="row 0%">
-						<div class="3u 12u(mobile)"><a href="images/fulls/01.jpg" class="image fit"><img src="images/thumbs/01.jpg" alt="" title="Ad infinitum" /></a></div>
-						<div class="3u 12u(mobile)"><a href="images/fulls/02.jpg" class="image fit"><img src="images/thumbs/02.jpg" alt="" title="Dressed in Clarity" /></a></div>
-						<div class="3u 12u(mobile)"><a href="images/fulls/03.jpg" class="image fit"><img src="images/thumbs/03.jpg" alt="" title="Raven" /></a></div>
-						<div class="3u 12u(mobile)"><a href="images/fulls/04.jpg" class="image fit"><img src="images/thumbs/04.jpg" alt="" title="I'll have a cup of Disneyland, please" /></a></div>
-					</div>
-					<div class="row 0%">
-						<div class="3u 12u(mobile)"><a href="images/fulls/05.jpg" class="image fit"><img src="images/thumbs/05.jpg" alt="" title="Cherish" /></a></div>
-						<div class="3u 12u(mobile)"><a href="images/fulls/06.jpg" class="image fit"><img src="images/thumbs/06.jpg" alt="" title="Different." /></a></div>
-						<div class="3u 12u(mobile)"><a href="images/fulls/07.jpg" class="image fit"><img src="images/thumbs/07.jpg" alt="" title="History was made here" /></a></div>
-						<div class="3u 12u(mobile)"><a href="images/fulls/08.jpg" class="image fit"><img src="images/thumbs/08.jpg" alt="" title="People come and go and walk away" /></a></div>
-					</div>
+					<?php
+						//$link=mysqli_connect();
+						include "utilities.php";
+						$wifiny=findNearest("50.0805215,14.4240316",8);
+						$radku=sizeof($wifiny);
+						echo "<div class='row 0%'>";
+						for($i=1; $i<=$radku; $i++){
+							echo "<div class='3u 12u(mobile)'><a href='images/fulls/01.jpg' class='image fit'><img src='images/thumbs/01.jpg' alt='' title='".$wifiny[$i-1][1]."' /></a></div>";
+							if($i%4==0){echo"</div><div class='row 0%'>";}
+						}
+						echo "</div>";
+					 ?>
 				</div>
 			</article>
+			<?php
+				if(isset($_REQUEST["pridat"])){
+					addSpot($_REQUEST["name"],$_REQUEST["latlon"],isset($_REQUEST["maZasuvku"]),isset($_REQUEST["maWifi"]),$_REQUEST["obrazek"]);
+				}
+			?>
+			<article class="container box style3">
+	      <div id="mapa" style="height: 50%; width: 50%;position:absolute;margin-left:30vw;"></div>
+	       <script>
+	         function initMap() {
+	           var myLatLng = {lat: 50.0593324, lng: 14.1854452};
+	           console.log(myLatLng);
+
+	           var map = new google.maps.Map(document.getElementById('mapa'), {
+	             zoom: 13,
+	             center: myLatLng
+	           });
+
+	           var marker = new google.maps.Marker({
+	           position: myLatLng,
+	           map: map,
+	           draggable: true,
+	           title: 'Hello World!'
+	           });
+
+	           google.maps.event.addListener(marker, 'dragend', function () {
+	             var lat = (marker.getPosition().lat());
+	             var lng = (marker.getPosition().lng());
+	             var latlng = lat + "," + lng;
+	             console.log(latlng);
+
+							 $('#latlng').val(latlng);
+	           });
+	       }
+	       </script>
+	       <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_E-gi8uTim3VpWcx8V7whPlK-ZhyaD98&callback=initMap" async defer></script>
+	    <form method="post">
+	       <div class="row 100%">
+	         <p>
+	           <input style="width:85%;" type="text" class="text responzivni" name="name" placeholder="Název" /><br />
+	           <input type="hidden" name="latlon" id="latlng" /><br />
+	           <input type="file" class="text" name="obrazek" placeholder=Obrázek /><br />
+	         </p>
+	       </div>
+	       <p>
+	         <div class="6u 12u$(mobile)">
+	           <img style="vertical-align:middle; margin-right: 20px; margin-bottom: 5px;" src="images/zasuvka_m.png" />Zásuvka<input type="checkbox" class="text" name="maZasuvku" placeholder="Zásuvka" />
+	         </div>
+	         <div class="6u 12u$(mobile)">
+	           <img style="vertical-align:middle; margin-right: 20px;" src="images/wifi_m.png"/>Wi-Fi
+	           <input type="checkbox" class="text" name="maWifi" placeholder="Wi-Fi" />
+	         </div>
+	       </p>
+	         <div class="12u$">
+	           <ul class="actions">
+	             <li><input type="submit" value="Přidat" name="pridat" /></li>
+	           </ul>
+	         </div>
+	       </div>
 
 
-				<iframe src="pridat.php" id="pridat" style="height: 100vh; width: 100%;"></iframe>
+	     </form>
+
+
+
+	     </article>
+	     <article>
+
+
+	   </article>
+
 
 		<section id="footer">
 			<ul class="icons">
