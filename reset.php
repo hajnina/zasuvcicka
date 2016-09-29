@@ -28,6 +28,7 @@
         LatLon TEXT,
         Confirms INT,
         Reports INT,
+        Popis TEXT,
         Obrazek TEXT
       );";
       if(mysqli_query($link, $dotaz)){echo "OK - Tabulka $db_table byla úspěšně vytvořena";}

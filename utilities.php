@@ -64,7 +64,7 @@
     return sqrt(abs($lat1-$lat2)*abs($lat1-$lat2)+abs($lon1-$lon2)*abs($lon1-$lon2));
   }
 
-  function addSpot($name, $latlon, $maZasuvku, $maWifi, $obrazek){
+  function addSpot($name, $latlon, $maZasuvku, $maWifi, $popis, $obrazek){
     global $db_table;
     $link=connect();
     $dotaz="SELECT Id From $db_table ORDER BY Id DESC";
@@ -79,7 +79,7 @@
     if($maZasuvku){$zasuvka=1;}else{$zasuvka=0;}
     if($maWifi){$wifina=1;}else {$wifina=0;}
 
-    $dotaz="INSERT INTO $db_table VALUES ($id,'$name',$zasuvka,$wifina,'$latlon',0,0,'$obrazek')";
+    $dotaz="INSERT INTO $db_table VALUES ($id,'$name',$zasuvka,$wifina,'$latlon',0,0,'$popis','$obrazek')";
     $ok=mysqli_query($link,$dotaz);
     if($ok){
       debug("OK - Přidáno");
@@ -97,5 +97,15 @@
   function latLonSpojit($lat,$lon){
     return $lat+","+$lon;
   }
+
+  function nahodnyRetezec($length = 10) {
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $charactersLength = strlen($characters);
+    $randomString = '';
+    for ($i = 0; $i < $length; $i++) {
+        $randomString .= $characters[rand(0, $charactersLength - 1)];
+    }
+    return $randomString;
+}
 
 ?>

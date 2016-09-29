@@ -84,6 +84,12 @@
 	.container {
 		width: 1140px;
 	}
+	#mapa {
+		height: 50%;
+		width: 50%;
+		position: absolute;
+		right: 5%;
+	}
 
 	@media screen and (max-width: 1680px) {
 
@@ -1783,7 +1789,7 @@
 			top: -4.5em;
 			margin-left: -45px;
 			margin-top: -33px;
-			background: url("images/arrow.svg") no-repeat;
+			//background: url("images/arrow.svg") no-repeat;
 		}
 
 		.box :last-child {
@@ -1991,7 +1997,7 @@
 				bottom: -4.5em;
 				margin-left: -45px;
 				margin-bottom: -33px;
-				background: url("images/arrow.svg") no-repeat;
+				//background: url("images/arrow.svg") no-repeat;
 			}
 
 /* Banner */
@@ -2345,6 +2351,7 @@
 				font-size: 1.25em;
 				letter-spacing: 4px;
 			}
+
 
 		/* List */
 

@@ -9,16 +9,15 @@
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 	</head>
 	<body>
-
 		<!-- Header -->
 			<section id="header">
 				<header>
-					<h1 style="text-shadow: 2px 2px 3px #808080;">zásuvčička.cz</h1>
+					<h1 style="text-shadow: 2px 2px 3px #808080;margin-left:10px">zásuvčička.cz</h1>
 					<p></p>
 					<h6 style="font-size:60%;text-shadow: 1px 2px 3px #000000;">(protože zasuvka.cz nebyla volná)</h6>
 				</header>
 				<footer>
-					<a href="#najit" class="button style2 scrolly-middle">Najít zásuvku</a>
+					<a href="#banner" class="button style2 scrolly-middle">Zjistit více</a>
 				</footer>
 			</section>
 
@@ -29,44 +28,76 @@
 				</header>
 				<p>Už se vám někdy stalo, že jste byli někde na cestách, nutně jste potřebovali notebook nebo mobil, ale baterka byla úplně prázdná?<br />
 				Nám se to stává pořád.<br />Takže jsme pro tyhle případy vytvořili databázi míst, kde si můžete své nenažrance dobít.</p>
-				<footer>
-					<a href="#pridat" class="button style2 scrolly">Přidat zásuvku</a>
+				<footer style="margin:centered;">
+					<a href="#najit" class="button style2 scrolly-middle">Najít zásuvku</a>
+					<a style="margin:20px;" href="#mapa" class="button style2 scrolly-middle">Přidat zásuvku</a>
 				</footer>
 			</section>
 		<!-- Feature 1 -->
 		<section id="najit">
-			 </section>
+
 			<article class="container box style2">
 				<header style="width: 70%;">
 					<h2>Zásuvky v okolí</h2>
 					<br />
-					<form method="post">
-						<input class="text responzivni" name="latlon" /><br /><br />
+					<form method="post" action="index.php#nejblizsi">
+						<input class="text responzivni" name="latlonVyhledavani" /><br /><br />
 						<input type="submit" value="Najít!" />
 					</form>
 				</header>
-				<div class="inner gallery">
+				<div class="inner gallery" id="nejblizsi">
 					<?php
 						//$link=mysqli_connect();
 						include "utilities.php";
-						$wifiny=findNearest("50.0805215,14.4240316",8);
+						if(isset($_REQUEST["latlonVyhledavani"])){
+							$kde=$_REQUEST["latlonVyhledavani"];
+							if($kde==""){$kde="50.0593324,14.1854452";}
+						}
+						else {
+							$kde="50.0593324,14.1854452";
+						}
+						$wifiny=findNearest($kde,8);
 						$radku=sizeof($wifiny);
 						echo "<div class='row 0%'>";
 						for($i=1; $i<=$radku; $i++){
-							echo "<div class='3u 12u(mobile)'><a href='images/fulls/01.jpg' class='image fit'><img src='images/thumbs/01.jpg' alt='' title='".$wifiny[$i-1][1]."' /></a></div>";
-							if($i%4==0){echo"</div><div class='row 0%'>";}
+							echo "<div class='3u 12u(mobile)'><a href='".$wifiny[$i-1][8]."' alt='' title='".$wifiny[$i-1][1]."' class='image fit'><img src='https://maps.googleapis.com/maps/api/staticmap?center=".$wifiny[$i-1][4]."&zoom=15&size=250x250&markers=color:red%7Clabel:%7C".$wifiny[$i-1][4]."&key=AIzaSyDdt_JLFuNtUKPretWOgPulgFnzsqU74Po' alt='' title='".$wifiny[$i-1][1]."' /></a></div>";
+							if($i%4==0 && $i<$radku){echo"</div><div class='row 0%'>";}
 						}
 						echo "</div>";
 					 ?>
 				</div>
-			</article>
+				</article>
+				</section>
+				<article class="container box style2">
+				<a href="mapa.php">
+					<header style="width: 70%;">
+						<h2>Najít další...</h2>
+					</header>
+				</a>
+				</article>
+
 			<?php
 				if(isset($_REQUEST["pridat"])){
-					addSpot($_REQUEST["name"],$_REQUEST["latlon"],isset($_REQUEST["maZasuvku"]),isset($_REQUEST["maWifi"]),$_REQUEST["obrazek"]);
+					$kamUlozit="images/img/";
+					if(isset($_FILES["obrazek"])){
+						$ok=getimagesize($_FILES["obrazek"]["tmp_name"]);
+						if($ok!==false){
+							$novySoubor=$kamUlozit.nahodnyRetezec().basename($_FILES["obrazek"]["name"]);
+						}
+						if (move_uploaded_file($_FILES["obrazek"]["tmp_name"], $novySoubor)) {
+        			$obrazek=$novySoubor;
+    				} else {
+        			$obrazek="images/default.jpg";
+    				}
+
+					}else{
+						$obrazek="images/default.jpg";
+					}
+					addSpot($_REQUEST["name"],$_REQUEST["latlon"],isset($_REQUEST["maZasuvku"]),isset($_REQUEST["maWifi"]),$_REQUEST["popis"],$obrazek);
 				}
 			?>
 			<article class="container box style3">
-	      <div id="mapa" style="height: 50%; width: 50%;position:absolute;margin-left:30vw;"></div>
+	      <div id="mapa" style="height: 50%; width: 50%;position:absolute;right:5%;"></div>
 	       <script>
 	         function initMap() {
 	           var myLatLng = {lat: 50.0593324, lng: 14.1854452};
@@ -92,15 +123,31 @@
 
 							 $('#latlng').val(latlng);
 	           });
+
+						 if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+            map.setCenter(pos);
+          }, function() {
+            handleLocationError(true, infoWindow, map.getCenter());
+          });
+        } else {
+          // Browser doesn't support Geolocation
+          handleLocationError(false, infoWindow, map.getCenter());
+        }
 	       }
 	       </script>
 	       <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_E-gi8uTim3VpWcx8V7whPlK-ZhyaD98&callback=initMap" async defer></script>
-	    <form method="post">
+	    <form method="post" enctype="multipart/form-data">
 	       <div class="row 100%">
 	         <p>
 	           <input style="width:85%;" type="text" class="text responzivni" name="name" placeholder="Název" /><br />
-	           <input type="hidden" name="latlon" id="latlng" /><br />
-	           <input type="file" class="text" name="obrazek" placeholder=Obrázek /><br />
+	           <input type="hidden" name="latlon" id="latlng" value="123.456,123.456" /><br />
+						 <textarea name="popis" style="width:85%;" placeholder="Popis"></textarea><br/>
+	           <input type="file" class="text" name="obrazek" placeholder="Obrázek" /><br />
 	         </p>
 	       </div>
 	       <p>
@@ -142,7 +189,8 @@
 			</ul>
 			<div class="copyright">
 				<ul class="menu">
-					<li>&copy; Martin Hajny</li><li>Design: <a href="http://robinsitar.cz">Robin Sitar</a></li>
+					<li>&copy; Martin Hajny</li><li>Design: <a href="http://robinsitar.cz">Robin Sitar</a></li><br />
+					<li>Mnohokráte děkujeme panu Miroslavu Sedlářovi za velmi štedrou nabídku 42 600Kč za doménu zásuvka.cz</li>
 				</ul>
 			</div>
 		</section>
