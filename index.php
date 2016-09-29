@@ -33,21 +33,17 @@
 					<a href="#pridat" class="button style2 scrolly">Přidat zásuvku</a>
 				</footer>
 			</section>
-<article class="container box style2">
-	<form method="post">
-		 <div class="row 100%">
-			 <p>
-				 <input style="width:85%;" type="text" class="text responzivni" name="name" placeholder="Název" /><br />
-				 <input type="hidden" name="latlon" id="latlng" /><br />
-				 <input type="file" class="text" name="obrazek" placeholder=Obrázek /><br />
-			 </p>
-</article>
 		<!-- Feature 1 -->
 		<section id="najit">
 			 </section>
 			<article class="container box style2">
-				<header>
+				<header style="width: 70%;">
 					<h2>Zásuvky v okolí</h2>
+					<br />
+					<form method="post">
+						<input class="text responzivni" name="latlon" /><br /><br />
+						<input type="submit" value="Najít!" />
+					</form>
 				</header>
 				<div class="inner gallery">
 					<?php
