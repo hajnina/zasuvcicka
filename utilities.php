@@ -1,11 +1,5 @@
 <?php
-  $admin="hajnina";
-  $admin_password="password";
-  $db_table="zasuvcicky";
-  $db_address="localhost";
-  $db_username="root";
-  $db="zasuvcicky";
-  $db_password="";
+  include "login.php";
   $vypisovat = false;
   function debug($hlaska){
     global $vypisovat;
