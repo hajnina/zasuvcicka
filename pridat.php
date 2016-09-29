@@ -20,16 +20,49 @@
  ?>
  <body>
    <article class="container box style3">
+     <div id="mapa" style="height: 50%; width: 50%;position:absolute;margin-left:30vw;"></div>
+      <script>
+        function initMap() {
+          var myLatLng = {lat: -25.363, lng: 131.044};
+          console.log(myLatLng);
+
+          var map = new google.maps.Map(document.getElementById('mapa'), {
+            zoom: 4,
+            center: myLatLng
+          });
+
+          var marker = new google.maps.Marker({
+          position: myLatLng,
+          map: map,
+          draggable: true,
+          title: 'Hello World!'
+          });
+
+          google.maps.event.addListener(marker, 'dragend', function () {
+            var lat = (marker.getPosition().lat());
+            var lng = (marker.getPosition().lng());
+            var latlng = lat + "," + lng;
+            console.log(latlng);
+          });
+      }
+      </script>
+      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_E-gi8uTim3VpWcx8V7whPlK-ZhyaD98&callback=initMap" async defer></script>
    <form method="post">
-      <div class="row 50%">
-        <p><input type="text" class="text" name="name" placeholder="Název" /><br />
-        <input type="text" class="text" name="latlon" placeholder="latlon" /><br />
-        <input type="file" class="text" name="obrazek" placeholder=Obrázek /><br />
-
+      <div class="row 100%">
+        <p>
+          <input type="text" class="text responzivni" name="name" placeholder="Název" /><br />
+          <input type="text" class="text responzivni" name="latlon" placeholder="latlon" /><br />
+          <input type="file" class="text" name="obrazek" placeholder=Obrázek /><br />
+        </p>
       </div>
-      </div>
-
-      <p><div class="6u 12u$(mobile)"><img style="vertical-align:middle; margin-right: 20px; margin-bottom: 5px;" src="images/zasuvka_m.png"></a>Zásuvka<input type="checkbox" class="text" name="maZasuvku" placeholder="Zásuvka" /></div><div class="6u 12u$(mobile)"><img style="vertical-align:middle; margin-right: 20px;" src="images/wifi_m.png"></a>Wi-Fi<input type="checkbox" class="text" name="maWifi" placeholder="Wi-Fi" /></div>
+      <p>
+        <div class="6u 12u$(mobile)">
+          <img style="vertical-align:middle; margin-right: 20px; margin-bottom: 5px;" src="images/zasuvka_m.png" />Zásuvka<input type="checkbox" class="text" name="maZasuvku" placeholder="Zásuvka" />
+        </div>
+        <div class="6u 12u$(mobile)">
+          <img style="vertical-align:middle; margin-right: 20px;" src="images/wifi_m.png"/>Wi-Fi
+          <input type="checkbox" class="text" name="maWifi" placeholder="Wi-Fi" />
+        </div>
       </p>
         <div class="12u$">
           <ul class="actions">
@@ -37,25 +70,16 @@
           </ul>
         </div>
       </div>
+
+
     </form>
 
 
 
     </article>
     <article>
-        <div id="map" style="height: 100%"></div>
-    <script>
-      var map;
-      function initMap() {
-        map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: -34.397, lng: 150.644},
-          zoom: 8
-        });
-      }
 
-    </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_E-gi8uTim3VpWcx8V7whPlK-ZhyaD98&callback=initMap"
-    async defer></script>
+
   </article>
  </body>
 

@@ -13,11 +13,12 @@
 		<!-- Header -->
 			<section id="header">
 				<header>
-					<h1>zasuvcicka.cz</h1>
+					<h1 style="text-shadow: 2px 2px 3px #808080;">zásuvčička.cz</h1>
 					<p></p>
+					<h6 style="font-size:60%;text-shadow: 1px 2px 3px #000000;">(protože zasuvka.cz nebyla volná)</h6>
 				</header>
 				<footer>
-					<a href="#0" class="button style2 scrolly-middle">Najít zásuvku</a>
+					<a href="#najit" class="button style2 scrolly-middle">Najít zásuvku</a>
 				</footer>
 			</section>
 
@@ -29,15 +30,16 @@
 				<p>Už se vám někdy stalo, že jste byli někde na cestách, nutně jste potřebovali notebook nebo mobil, ale baterka byla úplně prázdná?<br />
 				Nám se to stává pořád.<br />Takže jsme pro tyhle případy vytvořili databázi míst, kde si můžete ty vaše nenažrance dobít.</p>
 				<footer>
-					<a href="#pridatZasuvku" class="button style2 scrolly">Přidat zásuvku</a>
+					<a href="#pridat" class="button style2 scrolly">Přidat zásuvku</a>
 				</footer>
 			</section>
 
 		<!-- Feature 1 -->
+		<section id="najit">
 			<?php
 				//$link=mysqli_connect();
 				include "utilities.php";
-				$wifiny=findNearest("10,5");
+				$wifiny=findNearest("50.0805215,14.4240316");
 				$radku=sizeof($wifiny);
 				for($i=0; $i<$radku; $i++){
 					echo "
@@ -53,6 +55,7 @@
 					";
 				}
 			 ?>
+			 </section>
 			<article class="container box style2">
 				<header>
 					<h2>Magnis parturient</h2>
@@ -76,7 +79,7 @@
 			</article>
 
 
-				<iframe src="pridat.php" style="height: 100vh; width: 100%;"></iframe>
+				<iframe src="pridat.php" id="pridat" style="height: 100vh; width: 100%;"></iframe>
 
 		<section id="footer">
 			<ul class="icons">

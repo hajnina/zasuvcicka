@@ -6,7 +6,7 @@
   $db_username="root";
   $db="zasuvcicky";
   $db_password="";
-  $vypisovat = true;
+  $vypisovat = false;
   function debug($hlaska){
     global $vypisovat;
 
@@ -28,7 +28,7 @@
     return $link;
     }
 
-  function findNearest($latlonUzivatele){
+  function findNearest($latlonUzivatele,$pocet=2){
     global $db_table;
 
     $link=connect();
@@ -94,6 +94,14 @@
       debug("ERROR - Přidání se nezdařilo");
       debug($dotaz);
     }
+  }
+
+  function latLonZvlast($latLon){ //vrací pole o dvou polích, jedno je lat, druhé je, překvapivě, lon
+    return explode(",",$latLon);
+  }
+
+  function latLonSpojit($lat,$lon){
+    return $lat+","+$lon;
   }
 
 ?>
