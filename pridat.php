@@ -20,7 +20,7 @@
  ?>
  <body>
    <article class="container box style3">
-     <div id="mapa" style="height: 50%; width: 50%;position:absolute;margin-left:30vw;"></div>
+     <div id="mapa" style="height: 50%; width: 50%;position:absolute;margin-left:22vw;"></div>
       <script>
         function initMap() {
           var myLatLng = {lat: -25.363, lng: 131.044};
@@ -50,8 +50,8 @@
    <form method="post">
       <div class="row 100%">
         <p>
-          <input type="text" class="text responzivni" name="name" placeholder="Název" /><br />
-          <input type="text" class="text responzivni" name="latlon" placeholder="latlon" /><br />
+          <input style="width:85%;" type="text" class="text responzivni" name="name" placeholder="Název" /><br />
+          <input style="width:85%;" type="text" class="text responzivni" name="latlon" placeholder="latlon" /><br />
           <input type="file" class="text" name="obrazek" placeholder=Obrázek /><br />
         </p>
       </div>
