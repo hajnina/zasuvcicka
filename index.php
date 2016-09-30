@@ -9,6 +9,27 @@
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 	</head>
 	<body>
+		<?php
+			include "utilities.php";
+			if(isset($_REQUEST["pridat"])){
+				$kamUlozit="images/img/";
+				if(isset($_FILES["obrazek"])){
+					$ok=getimagesize($_FILES["obrazek"]["tmp_name"]);
+					if($ok!==false){
+						$novySoubor=$kamUlozit.nahodnyRetezec().basename($_FILES["obrazek"]["name"]);
+					}
+					if (move_uploaded_file($_FILES["obrazek"]["tmp_name"], $novySoubor)) {
+						$obrazek=$novySoubor;
+					} else {
+						$obrazek="images/default.jpg";
+					}
+
+				}else{
+					$obrazek="images/default.jpg";
+				}
+				addSpot($_REQUEST["name"],$_REQUEST["latlon"],isset($_REQUEST["maZasuvku"]),isset($_REQUEST["maWifi"]),$_REQUEST["popis"],$obrazek);
+			}
+		?>
 		<!-- Header -->
 			<section id="header">
 				<header>
@@ -45,10 +66,50 @@
 						<input type="submit" value="Najít!" />
 					</form>
 				</header>
-				<div class="inner gallery" id="nejblizsi">
+				<div class="inner gallery" id="nejblizsi" style="height: 75vh; width: 100%;">
+			    <?php
+					if(isset($_REQUEST["latlonVyhledavani"])){
+						$kde=$_REQUEST["latlonVyhledavani"];
+						if($kde==""){$kde="50.0593324,14.1854452";}
+					}
+					else {
+						$kde="50.0593324,14.1854452";
+					}
+					$latituta=latLonZvlast($kde)[0];
+					$longituta=latLonZvlast($kde)[1];
+			    echo "
+			    <script>
+			      function initMap() {
+
+			        var map = new google.maps.Map(document.getElementById('nejblizsi'), {
+			          zoom: 13,
+			          center: {lat: $latituta, lng: $longituta}
+			        });";
+			        $zasuvky=findNearest("0,0");
+			        if(sizeof($zasuvky));
+			        for($i=0; $i<sizeof($zasuvky); $i++){
+			          $lat=latLonZvlast($zasuvky[$i][4])[0];
+			          $lon=latLonZvlast($zasuvky[$i][4])[1];
+			          $nazev=$zasuvky[$i][1];
+			          echo "
+			          var myLatLng = {lat: $lat, lng: $lon};
+			          var marker = new google.maps.Marker({
+			            position: myLatLng,
+			            map: map,
+			            title: '$nazev'
+			          });";
+			        }
+			        echo "
+			    }
+			    </script>";
+			    ?>
+			      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_E-gi8uTim3VpWcx8V7whPlK-ZhyaD98&callback=initMap" async defer></script>
+
+
+
 					<?php
 						//$link=mysqli_connect();
-						include "utilities.php";
+						/*
 						if(isset($_REQUEST["latlonVyhledavani"])){
 							$kde=$_REQUEST["latlonVyhledavani"];
 							if($kde==""){$kde="50.0593324,14.1854452";}
@@ -63,7 +124,7 @@
 							echo "<div class='3u 12u(mobile)'><a href='".$wifiny[$i-1][8]."' alt='' title='".$wifiny[$i-1][1]."' class='image fit'><img src='https://maps.googleapis.com/maps/api/staticmap?center=".$wifiny[$i-1][4]."&zoom=15&size=250x250&markers=color:red%7Clabel:%7C".$wifiny[$i-1][4]."&key=AIzaSyDdt_JLFuNtUKPretWOgPulgFnzsqU74Po' alt='' title='".$wifiny[$i-1][1]."' /></a></div>";
 							if($i%4==0 && $i<$radku){echo"</div><div class='row 0%'>";}
 						}
-						echo "</div>";
+						echo "</div>";*/
 					 ?>
 				</div>
 				</article>
@@ -75,32 +136,10 @@
 					</header>
 				</a>
 				</article>
-
-			<?php
-				if(isset($_REQUEST["pridat"])){
-					$kamUlozit="images/img/";
-					if(isset($_FILES["obrazek"])){
-						$ok=getimagesize($_FILES["obrazek"]["tmp_name"]);
-						if($ok!==false){
-							$novySoubor=$kamUlozit.nahodnyRetezec().basename($_FILES["obrazek"]["name"]);
-						}
-						if (move_uploaded_file($_FILES["obrazek"]["tmp_name"], $novySoubor)) {
-        			$obrazek=$novySoubor;
-    				} else {
-        			$obrazek="images/default.jpg";
-    				}
-
-					}else{
-						$obrazek="images/default.jpg";
-					}
-					addSpot($_REQUEST["name"],$_REQUEST["latlon"],isset($_REQUEST["maZasuvku"]),isset($_REQUEST["maWifi"]),$_REQUEST["popis"],$obrazek);
-				}
-			?>
 			<article class="container box style3">
 	      <div id="mapa" style="height: 50%; width: 50%;position:absolute;right:5%;"></div>
 	       <script>
-	         function initMap() {
-	           var myLatLng = {lat: 50.0593324, lng: 14.1854452};
+	           var myLatLng = {lat: 50.08169891399731, lng: 14.427061151342741,};
 	           console.log(myLatLng);
 
 	           var map = new google.maps.Map(document.getElementById('mapa'), {
@@ -124,28 +163,30 @@
 							 $('#latlng').val(latlng);
 	           });
 
-						 if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(function(position) {
-            var pos = {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude
-            };
-            map.setCenter(pos);
-          }, function() {
-            handleLocationError(true, infoWindow, map.getCenter());
-          });
-        } else {
-          // Browser doesn't support Geolocation
-          handleLocationError(false, infoWindow, map.getCenter());
-        }
-	       }
+							 function gps(){
+							 if (navigator.geolocation) {
+
+							 	navigator.geolocation.getCurrentPosition(function(position) {
+		            var pos = {
+		              lat: position.coords.latitude,
+		              lng: position.coords.longitude
+		            };
+		            map.setCenter(pos);
+	          }, function() {
+	            handleLocationError(true, infoWindow, map.getCenter());
+	          });
+	        } else {
+	          // Browser doesn't support Geolocation
+	          handleLocationError(false, infoWindow, map.getCenter());
+	        }}
 	       </script>
 	       <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_E-gi8uTim3VpWcx8V7whPlK-ZhyaD98&callback=initMap" async defer></script>
 	    <form method="post" enctype="multipart/form-data">
 	       <div class="row 100%">
 	         <p>
 	           <input style="width:85%;" type="text" class="text responzivni" name="name" placeholder="Název" /><br />
-	           <input type="hidden" name="latlon" id="latlng" value="123.456,123.456" /><br />
+						 <input type="button" name="setGPS" onclick="gps" value="GPS🛰" /><br />
+						 <input type="hidden" name="latlon" id="latlng" value="123.456,123.456" /><br />
 						 <textarea name="popis" style="width:85%;" placeholder="Popis"></textarea><br/>
 	           <input type="file" class="text" name="obrazek" placeholder="Obrázek" /><br />
 	         </p>
@@ -190,7 +231,6 @@
 			<div class="copyright">
 				<ul class="menu">
 					<li>&copy; Martin Hajny</li><li>Design: <a href="http://robinsitar.cz">Robin Sitar</a></li><br />
-					<li>Mnohokráte děkujeme panu Miroslavu Sedlářovi za velmi štedrou nabídku 42 600Kč za doménu zásuvka.cz</li>
 				</ul>
 			</div>
 		</section>
