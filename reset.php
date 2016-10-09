@@ -36,9 +36,8 @@
         else{
           echo "ERROR - tabulka $db_table nebyla vytvořena";
         }
-        else {
-          echo "ERROR - Login failed";
-        }
+      }else {
+        echo "ERROR - Login failed";
       }
     ?>
   </body>
