@@ -1,6 +1,7 @@
 <?php
   include "login.php";
-  $vypisovat = false;
+  $geocodingApiKey="AIzaSyDz9Btoagw98Yra2r9z3zMEIjTWG3cebYg";
+  $vypisovat = true;
   function debug($hlaska){
     global $vypisovat;
 
@@ -106,6 +107,15 @@
         $randomString .= $characters[rand(0, $charactersLength - 1)];
     }
     return $randomString;
-}
+  }
+
+  function geocode($adresa){
+    $adresa=urlencode($adresa);
+    $json=json_decode(file_get_contents(https:\/\/maps.googleapis.com/maps/api/geocode/json?adresa=$adress&key=$geocodingApiKey), true);
+    return latLonSpojit($json["results"][0]["geometry"]["location"]["lat"],$json["results"][0]["geometry"]["location"]["lng"]);
+
+
+  }
+
 
 ?>
