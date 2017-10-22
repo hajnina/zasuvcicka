@@ -189,7 +189,7 @@
 			</ul>
 			<div class="copyright">
 				<ul class="menu">
-					<li>&copy; Martin Hajny</li><li>Design: <a href="http://robinsitar.cz">Robin Sitar</a></li><br />
+					<li>&copy; <a href="http://martinhajny.design">Martin Hajny</a></li><li>Design: <a href="http://robinsitar.cz">Robin Sitar</a></li><br />
 					<li>Mnohokráte děkujeme panu Miroslavu Sedlářovi za velmi štedrou nabídku 42 600Kč za doménu zásuvka.cz</li>
 				</ul>
 			</div>
